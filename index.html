@@ -22,29 +22,55 @@
             width: 10rem;
             height: 3rem;
             top: 18rem;
-            left: calc(50% - 6.5rem);
+            left: calc(50% - 6.2rem);
             font-family: 'Flama Medium', sans-serif;
             text-align: center;
             padding: 1rem;
             color: rgb(246, 182, 32);
             background-color: black;
             font-size: 2rem;
-            border: solid 0.45rem  rgb(246, 182, 32);
+            border: solid 0.2rem  rgb(246, 182, 32);
+            user-select: none;
         }
 
         input:hover {
             background-color: rgb(244, 0, 24);
             color: black;
+            user-select: none;
+        }
+
+        input:focus {
+            background-color: rgb(244, 0, 24);
+            color: black;
+            user-select: none;
+        }
+
+        input:active {
+            background-color: rgb(244, 0, 24);
+            color: black;
+            user-select: none;
         }
 
         #result {
             position: relative;
-            width: 20rem;
-            height: 3rem;
-            top: 20rem;
-            left: calc(50% - 10rem);
-            font-size: 2rem;
+            width: 100%;
             text-align: center;
+            top: 20rem;
+            font-style: normal;
+            font-family: 'Arthouse Owned', sans-serif;
+            font-weight: 200;
+            font-size: 2rem;
+        }
+
+        #result2 {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            top: 21rem;
+            font-style: normal;
+            font-family: 'Arthouse Owned', sans-serif;
+            font-weight: 800;
+            font-size: 4rem;
         }
 
         .label {
@@ -72,10 +98,11 @@
 
 <img class="jplogo" src="jrlogo.jpg"></img>
 
-    <div class="label" for="runtimeInput">Enter the total running time of your project:</div>
+    <div class="label">Jurassic Park has the perfect ratio of CGI shots.<br>Enter the total running time of your project to calculate the maximum amount you should have:</div>
     <input type="text" id="runtimeInput" oninput="calculateShots()">
 
-    <div id="result">Number of shots<br>???</div>
+    <div id="result">Number of shots:</div>
+    <div id="result2">??</div>
 
     <script>
         function sanitizeInput(input) {
@@ -100,7 +127,7 @@
             // Perform the calculation
             let calculatedshots = Math.floor((63 / 127) * runtime);
             // Display the result
-            document.getElementById('result').innerText = 'Number of shots: \n ' + calculatedshots;
+            document.getElementById('result2').innerText = calculatedshots;
         }
     </script>
 
