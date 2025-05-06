@@ -2,51 +2,135 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jurassic Ratio</title>
-    <style>
-@import "https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css";@import "https://fonts.cdnfonts.com/css/arthouse-owned-yes-stuff";body{font-family:'Flama Medium',sans-serif;font-size:1rem;color:#faebd7;margin:50px;background-color:#000}input{-webkit-appearance:none;-moz-appearance:none;appearance:none;border:none;position:relative;width:10rem;height:3rem;top:18rem;left:calc(50% - 6.2rem);font-family:'Flama Medium',sans-serif;text-align:center;padding:1rem;color:#fff;background-color:#1d1d1d;font-size:2rem;user-select:none}input:hover{background-color:#f40018;color:#000;user-select:none}input:focus{background-color:#f40018;color:#000;user-select:none}input:active{background-color:#f40018;color:#000;user-select:none}#result{position:relative;width:100%;text-align:center;top:20rem;font-style:normal;font-family:'Arthouse Owned',sans-serif;font-weight:200;font-size:2rem}#result2{position:relative;width:100%;text-align:center;top:21rem;font-style:normal;font-family:'Arthouse Owned',sans-serif;font-weight:800;font-size:4rem}.label{position:relative;width:100%;text-align:center;top:16rem;font-style:normal;font-family:'Arthouse Owned',sans-serif;font-style:italic;font-weight:500;font-size:1rem}.jplogo{position:absolute;top:2rem;width:20rem;left:calc(50% - 10rem)}
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jurassic Ratio</title>
+  <style>
+    @import "https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css";
+    @import "https://fonts.cdnfonts.com/css/arthouse-owned-yes-stuff";
+
+    body {
+      font-family: 'Arthouse Owned', sans-serif;
+      font-size: 1rem;
+      color: #faebd7;
+      margin: 5vh auto;
+      background-color: #000;
+      padding: 0 1rem;
+    }
+
+    .jplogo {
+      position: absolute;
+      top: 2rem;
+      width: 20rem;
+      left: calc(50% - 10rem);
+    }
+
+    .label {
+      display: block;
+      position: relative;
+      width: 100%;
+      text-align: center;
+      top: 16rem;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    input[type="number"] {
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+      appearance: none;
+      border: none;
+      position: relative;
+      width: 10rem;
+      height: 3rem;
+      top: 18rem;
+      left: calc(50% - 6.2rem);
+      font-family: 'Arthouse Owned', sans-serif;
+      text-align: center;
+      padding: 1rem;
+      color: #fff;
+      background-color: #1d1d1d;
+      font-size: 2rem;
+      user-select: none;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"]:hover,
+    input[type="number"]:focus,
+    input[type="number"]:active {
+      background-color: #f40018;
+      color: #000;
+      user-select: none;
+    }
+
+    #result {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      top: 20rem;
+      font-weight: 200;
+      font-size: 2rem;
+    }
+
+    #result2 {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      top: 21rem;
+      font-weight: 800;
+      font-size: 4rem;
+    }
+  </style>
 </head>
 
 <body>
 
-    <img class="jplogo" src="jrlogo.jpg"></img>
+  <img class="jplogo" src="jrlogo.jpg" alt="Jurassic Park Logo" />
 
-    <div class="label">Jurassic Park has the perfect ratio of CGI shots.<br>Enter the total running time of your project
-        to calculate the maximum amount you should have:</div>
-    <input type="text" id="runtimeInput" oninput="calculateShots()">
+  <form>
+    <label for="runtimeInput" class="label">
+      Jurassic Park has the perfect ratio of CGI shots.<br />
+      Enter the total running time of your project to calculate the maximum amount you should have:
+    </label>
+    <input type="number" id="runtimeInput" min="0" max="999" aria-label="Runtime in minutes" />
+  </form>
 
-    <div id="result">Number of shots:</div>
-    <div id="result2">??</div>
+  <div id="result">Number of shots:</div>
+  <div id="result2">??</div>
 
-    <script>
-        function sanitizeInput(input) {
-            // Remove any non-numeric characters
-            input = input.replace(/[^0-9]/g, '');
-            // Parse as an integer
-            let number = parseInt(input, 10);
-            // Ensure it's within the range 0-999
-            if (isNaN(number) || number < 0) {
-                number = 0;
-            } else if (number > 999) {
-                number = 999;
-            }
-            return number;
-        }
+  <script>
+    const JURASSIC_RATIO = 63 / 127;
+    const MAX_RUNTIME = 999;
+    const MIN_RUNTIME = 0;
 
-        function calculateShots() {
-            // Get the input value
-            let runtimeInput = document.getElementById('runtimeInput').value;
-            // Sanitize the input to ensure it's a number between 0 and 999
-            let runtime = sanitizeInput(runtimeInput);
-            // Perform the calculation
-            let calculatedshots = Math.floor((63 / 127) * runtime);
-            // Display the result
-            document.getElementById('result2').innerText = calculatedshots;
-        }
-    </script>
+    function sanitizeInput(input) {
+      input = input.replace(/[^0-9]/g, '');
+      let number = parseInt(input, 10);
+      if (isNaN(number) || number < MIN_RUNTIME) {
+        number = 0;
+      } else if (number > MAX_RUNTIME) {
+        number = MAX_RUNTIME;
+      }
+      return number;
+    }
+
+    function calculateShots() {
+      const rawInput = document.getElementById('runtimeInput').value;
+      const runtime = sanitizeInput(rawInput);
+      const calculatedShots = Math.floor(JURASSIC_RATIO * runtime);
+      document.getElementById('result2').innerText = calculatedShots;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("runtimeInput").addEventListener("input", calculateShots);
+    });
+  </script>
 
 </body>
 
